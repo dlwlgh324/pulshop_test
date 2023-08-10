@@ -1,33 +1,43 @@
-const getDateRange = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+$(function () {
+    let today = new Date();
 
-    while (start <= end) {
-        start.setDate(start.getDate() + 1);
-    }
-}
+    let year = today.getFullYear();
+    let twelveYear = today.getFullYear() - 1;
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let threeMonth = ('0' + (today.getMonth() - 2)).slice(-2);
+    let day = ('0' + today.getDate()).slice(-2);
 
-// 시작 날짜 ~ 종료 날짜
-function makeRandomDate() {
-    this.classList.remove('show');
 
-    const [start, end] = [...document.querySelectorAll("input")].map(v => v.value);
+    let startDate = year + '-' + threeMonth + '-' + day;
+    let endDate = year + '-' + month + '-' + day;
 
-    if (!start) {
-        return alert("시작일을 선택해주세요.");
-    }
+    document.getElementById('start_date').value = startDate;
+    document.getElementById('end_date').value = endDate;
 
-    if (!end) {
-        return alert("종료일을 선택해주세요.");
-    }
+    $('#threeBtn').click(function () {
+        let threeMonth = ('0' + (today.getMonth() - 2)).slice(-2);
+        let dateString = year + '-' + threeMonth + '-' + day;
+        document.getElementById('start_date').value = dateString;
+    });
 
-    if (start > end) {
-        return alert("시작일은 종료일보다 작아야합니다.");
-    }
-    const TIME_ZONE = 3240 * 10000;
+    $('#sixBtn').click(function () {
+        let threeMonth = ('0' + (today.getMonth() - 5)).slice(-2);
+        let dateString = year + '-' + threeMonth + '-' + day;
+        document.getElementById('start_date').value = dateString;
+    });
 
-    const date = getDateRange(start, end);
+    $('#twelveBtn').click(function () {
+        let twelveYear = today.getFullYear() - 1;
+        let dateString = twelveYear + '-' + month + '-' + day;
+        document.getElementById('start_date').value = dateString;
+    });
 
-    this.classList.add('show');
-    this.innerHTML = date.map(x => `<p>${x}</p>`).join('');
-}
+
+    let buttons = document.querySelectorAll('.date_btn > button');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelector('.active')?.classList.remove('active');
+            button.classList.add('active');
+        });
+    });
+});
